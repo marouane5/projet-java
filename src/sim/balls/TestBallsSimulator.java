@@ -18,7 +18,7 @@ public class TestBallsSimulator {
         List<Point> vel = Arrays.asList(new Point(4, 3), new Point(-3, 5), new Point(2, -4));
         Balls balls = new Balls(pos, vel);
 
-        new BallsSimulator(gui, balls, 8, Color.ORANGE);
+        new BallsSimulator(gui, balls,20, Color.ORANGE);
     }
 }
 

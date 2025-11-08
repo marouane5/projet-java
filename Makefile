@@ -24,10 +24,14 @@ JAVA = java
 SRC_DIR = src
 BIN_DIR = bin
 CLASSPATH = $(BIN_DIR):lib/gui.jar
+# Virtual X server runner for headless environments
+XVFB = xvfb-run -s "-screen 0 1024x768x24"
 
 SOURCES := $(shell find $(SRC_DIR) -name '*.java')
 
-.PHONY: all clean compile runTestInvader runBalls runLife runImmigration runSchelling runBoids
+.PHONY: all clean compile \
+    runTestInvader runBalls runLife runImmigration runSchelling runBoids \
+    runTestInvaderHeadless runBallsHeadless runLifeHeadless runImmigrationHeadless runSchellingHeadless runBoidsHeadless
 
 all: compile
 
@@ -40,20 +44,38 @@ compile: $(BIN_DIR)
 runTestInvader: compile
 	$(JAVA) -classpath $(CLASSPATH) TestInvader
 
+runTestInvaderHeadless: compile
+	$(XVFB) $(JAVA) -classpath $(CLASSPATH) TestInvader
+
 runBalls: compile
 	$(JAVA) -classpath $(CLASSPATH) sim.balls.TestBallsSimulator
+
+runBallsHeadless: compile
+	$(XVFB) $(JAVA) -classpath $(CLASSPATH) sim.balls.TestBallsSimulator
 
 runLife: compile
 	$(JAVA) -classpath $(CLASSPATH) sim.cellular.TestLife
 
+runLifeHeadless: compile
+	$(XVFB) $(JAVA) -classpath $(CLASSPATH) sim.cellular.TestLife
+
 runImmigration: compile
 	$(JAVA) -classpath $(CLASSPATH) sim.cellular.TestImmigration
+
+runImmigrationHeadless: compile
+	$(XVFB) $(JAVA) -classpath $(CLASSPATH) sim.cellular.TestImmigration
 
 runSchelling: compile
 	$(JAVA) -classpath $(CLASSPATH) sim.cellular.TestSchelling
 
+runSchellingHeadless: compile
+	$(XVFB) $(JAVA) -classpath $(CLASSPATH) sim.cellular.TestSchelling
+
 runBoids: compile
 	$(JAVA) -classpath $(CLASSPATH) sim.boids.TestBoids
+
+runBoidsHeadless: compile
+	$(XVFB) $(JAVA) -classpath $(CLASSPATH) sim.boids.TestBoids
 
 clean:
 	rm -rf $(BIN_DIR)/

@@ -4,16 +4,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple collection of moving balls, each with a position and a velocity.
- * Provides translation and reinitialization facilities.
- */
+
 public class Balls {
     private final List<Point> initialPositions = new ArrayList<>();
     private final List<Point> positions = new ArrayList<>();
     private final List<Point> velocities = new ArrayList<>(); // vx, vy in pixels per step
 
-    /** Create from arrays of positions and velocities. */
+    /** create from arrays of positions and velocities. */
     public Balls(List<Point> pos, List<Point> vel) {
         if (pos.size() != vel.size()) {
             throw new IllegalArgumentException("positions and velocities must have same size");
@@ -33,14 +30,14 @@ public class Balls {
 
     public Point getVelocity(int i) { return new Point(velocities.get(i)); }
 
-    /** Translate all balls by (dx, dy). */
+    /** Ttranslati les points */
     public void translate(int dx, int dy) {
         for (Point p : positions) {
             p.translate(dx, dy);
         }
     }
 
-    /** Advance by one step according to stored velocities. */
+    /** advance by one step according to stored velocities. */
     public void step() {
         for (int i = 0; i < positions.size(); i++) {
             Point p = positions.get(i);
@@ -49,12 +46,12 @@ public class Balls {
         }
     }
 
-    /** Reverse velocity component i (helper for bouncing). */
+    /** rebond ila tkhbtat chi haja */
     public void invertVx(int i) { velocities.get(i).x = -velocities.get(i).x; }
 
     public void invertVy(int i) { velocities.get(i).y = -velocities.get(i).y; }
 
-    /** Reset to initial positions, keep velocities unchanged. */
+    /** Reset to initial positions */
     public void reInit() {
         for (int i = 0; i < positions.size(); i++) {
             Point p0 = initialPositions.get(i);

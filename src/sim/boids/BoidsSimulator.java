@@ -29,6 +29,8 @@ public class BoidsSimulator implements Simulable {
     }
 
     public void addGroup(BoidGroup g, Color color) {
+        // Take a snapshot so that restart() can restore initial positions
+        g.snapshotInitial();
         groups.add(g); colors.add(color);
     }
 
@@ -82,6 +84,9 @@ public class BoidsSimulator implements Simulable {
     }
 
     @Override public void next() { manager.next(); }
-    @Override public void restart() { manager.restart(); draw(); }
+    @Override public void restart() {
+        for (BoidGroup g : groups) g.reInit();
+        manager.restart();
+        draw();
+    }
 }
-

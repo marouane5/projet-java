@@ -22,6 +22,21 @@ Le classpath inclut automatiquement `lib/gui.jar`.
 
 Note: Vu la taille du projet, il est ***très fortement recommandé d'utiliser un IDE*** pour compiler, exécuter et déboguer votre code!
 
+### Environnements sans affichage (headless) / erreurs AWT
+Si vous avez une erreur du type `UnsatisfiedLinkError: libawt_xawt.so` ou pas d'affichage (serveur X absent), vous pouvez:
+
+- Installer une JVM non-headless et les bibliothèques X11 (Ubuntu/Debian):
+  - `sudo apt-get install -y openjdk-17-jre libx11-6 libxext6 libxi6 libxtst6 libxrender1 libxrandr2 libxt6 libxinerama1 libxfixes3 libfontconfig1 libfreetype6 libasound2 libcups2`
+- Sous WSL: installer un serveur X sous Windows (VcXsrv/Xming), puis `export DISPLAY=<ip_windows>:0` avant d'exécuter.
+- En mode totalement headless: utiliser un serveur X virtuel via `xvfb-run` avec les cibles suivantes:
+  - `make runTestInvaderHeadless`
+  - `make runBallsHeadless`
+  - `make runLifeHeadless` / `make runImmigrationHeadless` / `make runSchellingHeadless`
+  - `make runBoidsHeadless`
+
+Astuce: pour diagnostiquer des bibliothèques manquantes, vous pouvez lancer
+`ldd /usr/lib/jvm/java-17-openjdk-amd64/lib/libawt_xawt.so | grep 'not found'`.
+
 ### IDE Idea Intellij
 - créer un nouveau projet:
     - menu *File/New Project*

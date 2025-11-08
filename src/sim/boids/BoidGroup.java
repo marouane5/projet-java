@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class BoidGroup {
     public final List<Boid> boids = new ArrayList<>();
+    // Snapshot of initial state for restart()
+    private final List<Boid> initial = new ArrayList<>();
     public double radius = 50.0;
     public double weightCohesion = 0.01;
     public double weightAlignment = 0.05;
@@ -57,5 +59,30 @@ public class BoidGroup {
         }
         return a;
     }
-}
 
+    /** Save current boids as initial snapshot for restart(). */
+    public void snapshotInitial() {
+        initial.clear();
+        for (Boid b : boids) {
+            initial.add(new Boid(b.pos.x, b.pos.y, b.vel.x, b.vel.y));
+        }
+    }
+
+    /** Restore boids to the initial snapshot (if any). */
+    public void reInit() {
+        if (initial.size() != boids.size()) {
+            // best-effort: rebuild from snapshot if sizes differ
+            boids.clear();
+            for (Boid b : initial) {
+                boids.add(new Boid(b.pos.x, b.pos.y, b.vel.x, b.vel.y));
+            }
+            return;
+        }
+        for (int i = 0; i < boids.size(); i++) {
+            Boid src = initial.get(i);
+            Boid dst = boids.get(i);
+            dst.pos.x = src.pos.x; dst.pos.y = src.pos.y;
+            dst.vel.x = src.vel.x; dst.vel.y = src.vel.y;
+        }
+    }
+}
